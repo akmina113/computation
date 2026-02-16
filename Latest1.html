@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .input-group label { display: block; font-size: 0.875rem; font-weight: 600; color: #2664bc; margin-bottom: 0.25rem; }
+        .input-field { width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; transition: all 0.2s; }
+        .input-field:focus { outline: none; border-color: #3b82f6; ring: 2px; ring-color: #bfdbfe; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-800">Income Tax Calculator</h1>
+            <p class="text-slate-500">Enter your details below for a comprehensive tax effect analysis.</p>
+        </header>
+
+        <form id="taxForm" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left & Middle Column: Inputs -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Section 1: Personal & Assessment Info -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-semibold text-blue-600 mb-4 border-b pb-2">Basic Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <label for="name">Name of the Assessee</label>
+                            <input type="text" id="name" class="input-field" placeholder="Ajay Kumar">
+                        </div>
+                        <div class="input-group">
+                            <label for="pan">PAN Card Number</label>
+                            <input type="text" id="pan" style="text-transform: uppercase;" class="input-field" maxlength="10" placeholder="ABCDE1234F">
+                        </div>
+                        <div class="input-group">
+                            <label for="ay">Assessment Year</label>
+                            <select id="ay" class="input-field">
+                                <option value="2015-16">2015-16</option>
+                                <option value="2016-17">2016-17</option>
+                                <option value="2017-18">2017-18</option>
+                                <option value="2018-19">2018-19</option>
+                                <option value="2019-20">2019-20</option>
+                                <option value="2020-21">2020-21</option>
+                                <option value="2021-22">2021-22</option>
+                                <option value="2022-23">2022-23</option>
+                                <option value="2023-24">2023-24</option>
+                                <option value="2024-25">2024-25</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="itr_date">ITR Filing Date</label>
+                            <input type="date" id="itr_date" class="input-field">
+                            <script src="date.js"></script>
+                        </div>
+                        <div class="input-group">
+                            <label for="order_date">Date Of Regular Assessment</label>
+                            <input type="date" id="order_date" class="input-field">
+                            <script src="date.js"></script>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Income Details -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-semibold text-green-600 mb-4 border-b pb-2">Income Details (₹)</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="input-group">
+                            <label for="income">Total Income after deductions</label>
+                            <input type="number" id="income" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="s_income">Special Income taxable u/s 115BBE</label>
+                            <input type="number" id="s_income" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="ag_income">Agricultural Income</label>
+                            <input type="number" id="ag_income" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="ltcg_income">LTCG Income</label>
+                            <input type="number" id="ltcg_income" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="stcg_income">STCG Income</label>
+                            <input type="number" id="stcg_income" class="input-field" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Payments & Orders -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-lg font-semibold text-orange-600 mb-4 border-b pb-2">Taxes Paid & Order Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="input-group">
+                            <label for="tds">TDS</label>
+                            <input type="number" id="tds" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="tcs">TCS</label>
+                            <input type="number" id="tcs" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="advtax">Advance Tax</label>
+                            <input type="number" id="advtax" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="self_ass_tax">Self Assessment Tax paid</label>
+                            <input type="number" id="self_ass_tax" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="self_ass_date">Date of Self Assessment Tax Paid</label>
+                            <input type="date" id="refund_date" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label for="interest_234c">Interest u/s 234C </label>
+                            <input type="number" id="interest_234c" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="refund_amt">Refund Amount</label>
+                            <input type="number" id="refund_amt" class="input-field" value="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="refund_date">Refund Date</label>
+                            <input type="date" id="refund_date" class="input-field">
+                        </div>
+                        <div class="input-group">
+                            <label for="taxorder">Tax as per Order</label>
+                            <input type="number" id="taxorder" class="input-field" value="0" placeholder="Existing tax as per order">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="calculateTax()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-slate-900 transition-colors shadow-lg">
+                    Generate Computation Analysis
+                </button>
+            </div>
+
+            <!-- Dashboard Sidebar -->
+            <div class="lg:col-span-4">
+                <div class="sticky top-8 space-y-4">
+                    <div class="bg-skyblue-900 text-white p-8 rounded-2xl shadow-2xl overflow-hidden relative">
+                        <div class="relative z-10">
+                            <h2 class="text-xl font-bold mb-6 flex items-center">
+                                <i class="fas fa-chart-line mr-3 text-blue-400"></i> Computation Sheet
+                            
+                            <div id="loading" class="hidden py-12 text-center">
+                                <i class="fas fa-circle-notch fa-spin text-3xl text-blue-400"></i>
+                                <p class="mt-4 text-slate-400">Processing Data...</p>
+                            </div>
+
+                            <div id="resultsDisplay" class="font-mono text-sm bg-slate-800/50 p-6 rounded-xl border border-slate-700 min-h-[300px]">
+                                <p class="text-black-400 italic">Awaiting input parameters to generate analysis...</p>
+                            </div>
+
+                            <div id="errorDisplay" class="hidden mt-4 p-4 bg-red-900/30 border border-red-500/50 text-red-400 text-xs rounded-xl"></div>
+                        </div>
+                        <!-- Background decoration -->
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+                    </div>
+
+                    <!-- Quick Tips Card -->
+                    <div class="glass-card p-6 rounded-2xl border-dashed border-slate-300">
+                        <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2 mb-2">
+                            <i class="fas fa-lightbulb text-yellow-500"></i> Pro Tip
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Ensure your PAN matches the format <strong>ABCDE1234F</strong> to avoid validation errors during official filing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        async function calculateTax() {
+            const resultDiv = document.getElementById('resultsDisplay');
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('errorDisplay');
+            
+            resultDiv.classList.add('hidden');
+            errorDiv.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            const payload = {};
+            const inputs = document.querySelectorAll('.input-field');
+            inputs.forEach(input => {
+                payload[input.id] = input.value;
+            });
+
+            try {
+                const response = await fetch('http://localhost:5001/calculate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="animate-in fade-in duration-500">${result.answer}</div>`;
+                    resultDiv.classList.remove('hidden');
+                } else {
+                    throw new Error(result.error || "Calculation error");
+                }
+            } catch (err) {
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle mr-2"></i> ${err.message}`;
+                errorDiv.classList.remove('hidden');
+                resultDiv.classList.remove('hidden'); // Show old state/placeholder
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
